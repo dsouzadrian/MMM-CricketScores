@@ -5,7 +5,7 @@ https://github.com/MichMich/MagicMirror
 
 This module display's today's scores for your favourite Cricket Matches
 
-![Screenshot](/../Screenshots/screenshot.png?raw=true "Screenshot")
+![Screenshot](/Screenshots/screenshot.png "Screenshot")
 
 
 ## Installation
