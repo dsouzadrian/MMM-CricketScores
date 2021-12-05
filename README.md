@@ -5,7 +5,7 @@ https://github.com/MichMich/MagicMirror
 
 This module display's today's scores for your favourite Cricket Matches
 
-![Screenshot](/../screenshots/screenshot.png?raw=true "Screenshot")
+![Screenshot](/../Screenshots/screenshot.png?raw=true "Screenshot")
 
 
 ## Installation
@@ -56,9 +56,11 @@ This module display's today's scores for your favourite Cricket Matches
     module: 'MMM-CricketScores',
     position: 'right',
     config:{
-        numberOfResults : 1,
+        category: "cricket",
+        numberOfResults : 3,
         focusTeam: "India",
-        apikey: '1234'
+        apiKey: '21345', // refer to the apiKey description to get an apiKey
+        refreshInterval: 90
     }
 },
 
