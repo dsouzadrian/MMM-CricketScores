@@ -43,6 +43,7 @@ This module display's today's scores for your favourite Cricket Matches
 
 ## Example configuration
 
+```
 {
     module: 'MMM-CricketScores',
     position: 'right',
@@ -52,5 +53,5 @@ This module display's today's scores for your favourite Cricket Matches
     }
 },
 
-
+```
 
