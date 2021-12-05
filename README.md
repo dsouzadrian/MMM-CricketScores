@@ -3,7 +3,7 @@ This a module for <strong>MagicMirror</strong><br>
 https://magicmirror.builders/<br>
 https://github.com/MichMich/MagicMirror
 
-This module display's today's scores for your favourite Cricket Matches
+This module display's cricket scores for ongoing live cricket matches
 
 ![Screenshot](/Screenshots/screenshot.png "Screenshot")
 
