@@ -25,10 +25,10 @@ module.exports = NodeHelper.create({
             this.config = payload;
             console.log("[CKTSCORES] Initialized");
             this.callAPI(this.config, (notifyID, payload) => {
-                console.log("[CKTSCORES] Sending Socket Notification: ", notifyID);
+                //console.log("[CKTSCORES] Sending Socket Notification: ", notifyID);
                 this.sendSocketNotification(notifyID, payload);
             })
-            console.log("[CKTSCORES] CallAPI Finished");
+            //console.log("[CKTSCORES] CallAPI Finished");
             
         } else if (notifyID == "UPDATE") {
             // Query immediately
@@ -39,7 +39,7 @@ module.exports = NodeHelper.create({
     },
 
     callAPI: function(cfg, callback) {
-        console.log("[CKTSCORES] DEBUG - CALLAPI - Begin()");
+        //console.log("[CKTSCORES] DEBUG - CALLAPI - Begin()");
         
         const options = {
         method: 'GET',
