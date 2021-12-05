@@ -32,6 +32,8 @@ module.exports = NodeHelper.create({
             
         } else if (notifyID == "UPDATE") {
             // Query immediately
+            this.config = payload;
+            console.error("[CKTSCORES] Updated");
             this.callAPI(this.config, (notifyID, payload) => {
                 this.sendSocketNotification(notifyID, payload);
             })
@@ -47,7 +49,7 @@ module.exports = NodeHelper.create({
         qs: {Category: this.config.category},
         headers: {
             'x-rapidapi-host': 'livescore6.p.rapidapi.com',
-            'x-rapidapi-key': 'ODtB95jMKimsh0UquhPOyvJ2ngZcp1rDuf3jsnXjUA2VkTCVsv',
+            'x-rapidapi-key': this.config.apiKey,
             useQueryString: true
         }
         };
@@ -63,7 +65,7 @@ module.exports = NodeHelper.create({
                 return;
             }
             data = JSON.parse(body);
-            console.log("Received data:" + JSON.stringify(data));
+            //console.log("Received data:" + JSON.stringify(data));
             var results = data.Stages;
             if (results.length == 0) {
                 console.log("[CKTSCORES] Data Error: There is no available data");

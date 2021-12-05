@@ -3,7 +3,9 @@ Module.register("MMM-CricketScores",{
 	defaults: {
 		category: "cricket",
 		numberOfResults : 3,
-		focusTeam : "none"
+		focusTeam : "none",
+		apiKey: "1234",
+		refreshInterval: 90
 	},
 
     getScripts: function() {
@@ -25,6 +27,25 @@ Module.register("MMM-CricketScores",{
 		return wrapper;
 	},
 
+	notificationReceived: function(notifyID, payload) {
+		if (notifyID == "DOM_OBJECTS_CREATED") {
+			let _this = this;
+		  	setInterval(function() {			
+				_this.updateScores();			
+		  	}, this.config.refreshInterval * 60 * 1000);
+		}
+	  },
+
+	updateScores: function() {
+		var wrapper = document.getElementById("CKTSCORES");
+			while (wrapper.firstChild) {
+				wrapper.firstChild.remove();
+			}
+		Log.info("[CKTSCORES] Updating");
+		this.sendSocketNotification("UPDATE", this.config);
+		this.updateDom();
+		Log.info("[CKTSCORES] Updated");
+	},
 	socketNotificationReceived: function(notifyID, payload) {
 		if (notifyID == "UPDATE") {
 		  var numItems = payload.length;
@@ -82,7 +103,7 @@ Module.register("MMM-CricketScores",{
 
 	displayInfo: function(item){
 		var wrapper = document.getElementById("CKTSCORES");
-
+		
 		var title = document.createElement("span");
 		title.id = "matchTitle";
 		title.className = "header";
@@ -166,6 +187,9 @@ Module.register("MMM-CricketScores",{
 		wrapper.appendChild(document.createElement("br"));
 		wrapper.appendChild(document.createElement("hr"));
 		wrapper.appendChild(matchTable);
+		wrapper.appendChild(document.createElement("hr"));
+
+		
 		
 	},
 
