@@ -1,0 +1,11 @@
+.header{
+    text-align: left;
+    font-weight: bold;
+    color: skyblue;
+}
+
+.logos{
+    height: 20px;
+    width: 40px;
+    padding-right: 5px;
+}
