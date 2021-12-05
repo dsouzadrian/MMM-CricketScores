@@ -56,7 +56,6 @@ This module display's cricket scores for ongoing live cricket matches
     module: 'MMM-CricketScores',
     position: 'right',
     config:{
-        category: "cricket",
         numberOfResults : 3,
         focusTeam: "India",
         apiKey: '21345', // refer to the apiKey description to get an apiKey
