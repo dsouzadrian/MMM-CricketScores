@@ -38,7 +38,7 @@ This module display's today's scores for your favourite Cricket Matches
     </tr>
     <tr>
       <td><code>apiKey</code></td>
-      <td>API Key to retrieve cricket scores from <a href="https://www.livescore.com/en/cricket/">https://www.livescore.com/en/cricket/</a>. You can sign up for an API Key here : <a href="https://rapidapi.com/apidojo/api/livescore6/">https://rapidapi.com/apidojo/api/livescore6/</a> <br>Defaults to <code>none</code></td>
+      <td>API Key to retrieve cricket scores from <a href="https://www.livescore.com/en/cricket/">https://www.livescore.com/en/cricket/</a>. You can sign up for an API Key here : <a href="https://rapidapi.com/apidojo/api/livescore6/">https://rapidapi.com/apidojo/api/livescore6/</a><br><br>After signing up, you must subscribe to the service to receive your api key. <br>Defaults to <code>none</code></td>
     </tr>
     <tr>
       <td><code>refreshInterval</code></td>
