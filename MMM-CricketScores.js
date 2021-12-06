@@ -79,41 +79,86 @@ Module.register("MMM-CricketScores",{
 			this.update(item);
 
 		  }
+
+		  this.addLastUpdated();
 		  
 		}
+	},
+
+	addLastUpdated: function(){
+		var wrapper = document.getElementById("CKTSCORES");
+
+		var lastUpdtDtTm = document.createElement("span");
+		lastUpdtDtTm.id = "lastUpdt";
+		let now = new Date();
+		var dateString = now.getFullYear() + "/" +
+		("0" + (now.getMonth()+1)).slice(-2) + "/" +
+		("0" + now.getDate()).slice(-2) + " " +
+		("0" + now.getHours()).slice(-2) + ":" +
+		("0" + now.getMinutes()).slice(-2) + ":" +
+		("0" + now.getSeconds()).slice(-2);
+		lastUpdtDtTm.innerHTML = "Last Updated : " + dateString;
+		wrapper.appendChild(lastUpdtDtTm);
+	
 	},
 
 	update: function(item){
 		var match = {
 			"matchName" : item.Snm,
+			"matchCurrentStat" : item.Events[0].EpsL,
 			"matchSummary": item.Events[0].ECo,
 			"matchType": item.Ccd,
 			"team1" : item.Events[0].T1[0].Nm,
 			"team1Img" : this.loadTeamImgName(item.Events[0].T1[0].Nm),
 			"team2" : item.Events[0].T2[0].Nm,
 			"team2Img" : this.loadTeamImgName(item.Events[0].T2[0].Nm),
-			"fstInningTeam1": item.Events[0].Tr1C1 + "/" +  item.Events[0].Tr1CW1,
-			"fstInningTeam2": item.Events[0].Tr2C1 + "/" +  item.Events[0].Tr2CW1,
-			"scndInningTeam1": item.Events[0].Tr1C2 + "/" +  item.Events[0].Tr1CW2,
-			"scndInningTeam2": item.Events[0].Tr2C2 + "/" +  item.Events[0].Tr2CW2
+			"fstInningTeam1": item.Events[0].Tr1C1 + "/" +  item.Events[0].Tr1CW1 + " (" + +  item.Events[0].Tr1CO1 + "overs)",
+			"fstInningTeam2": item.Events[0].Tr2C1 + "/" +  item.Events[0].Tr2CW1 + " (" + +  item.Events[0].Tr2CO1 + "overs)",
+			"scndInningTeam1": item.Events[0].Tr1C2 + "/" +  item.Events[0].Tr1CW2 + " (" + +  item.Events[0].Tr1CO2 + "overs)",
+			"scndInningTeam2": item.Events[0].Tr2C2 + "/" +  item.Events[0].Tr2CW2 + " (" + +  item.Events[0].Tr2CO2 + "overs)"
 		}
 		this.displayInfo(match);
 
 	},
 
 	displayInfo: function(item){
-		var wrapper = document.getElementById("CKTSCORES");
+		this.createTitleHeader(item);
+		this.createMatchTable(item);
 		
+	},
+
+	createTitleHeader: function(item){
+		var wrapper = document.getElementById("CKTSCORES");
+
+		var titleDiv = document.createElement("div");
+		titleDiv.id = "matchTitle";
 		var title = document.createElement("span");
-		title.id = "matchTitle";
 		title.className = "header";
 		title.innerHTML = item.matchName;
+
+		var matchStat = document.createElement("span");
+		matchStat.id = "matchStatus";
+		matchStat.className = "header";
+		matchStat.innerHTML = "(" + item.matchCurrentStat + ")";
 
 		var summ =  document.createElement("span");
 		summ.id = "matchSumm";
 		summ.className = "header";
 		summ.innerHTML = item.matchSummary;
 
+		titleDiv.appendChild(title);
+		titleDiv.appendChild(matchStat);
+		titleDiv.appendChild(document.createElement("br"));
+		titleDiv.appendChild(summ);
+		titleDiv.appendChild(document.createElement("br"));
+
+		wrapper.appendChild(titleDiv);
+		
+		
+
+	},
+
+	createMatchTable:function(item){
 		var matchTable = document.createElement("table");
 		matchTable.id = "MatchTable";
 
@@ -122,8 +167,8 @@ Module.register("MMM-CricketScores",{
 		var scndInnRow = document.createElement("tr");
 
 		//Create Header Columns for the table
-		var blankCol = document.createElement("td");
-		var team1Name = document.createElement("td");
+		var blankCol = document.createElement("th");
+		var team1Name = document.createElement("th");
 		var team1NameText = document.createElement("span");
 		team1NameText.className = "teamName";
 		team1NameText.innerHTML = item.team1;
@@ -132,7 +177,7 @@ Module.register("MMM-CricketScores",{
 		team1Img.src = this.file(item.team1Img);
 		team1Name.appendChild(team1Img);
 		team1Name.appendChild(team1NameText);
-		var team2Name = document.createElement("td")
+		var team2Name = document.createElement("th")
 		var team2NameText = document.createElement("span");
 		team2NameText.className = "teamName";
 		team2NameText.innerHTML = item.team2;
@@ -180,17 +225,10 @@ Module.register("MMM-CricketScores",{
 			matchTable.appendChild(scndInnRow);
 		}
 		
-		
-		wrapper.appendChild(title);
-		wrapper.appendChild(document.createElement("br"));
-		wrapper.appendChild(summ);
-		wrapper.appendChild(document.createElement("br"));
+		var wrapper = document.getElementById("CKTSCORES");
 		wrapper.appendChild(document.createElement("hr"));
 		wrapper.appendChild(matchTable);
 		wrapper.appendChild(document.createElement("hr"));
-
-		
-		
 	},
 
 	validateScore:function(scoreString){
