@@ -5,7 +5,7 @@ https://github.com/MichMich/MagicMirror
 
 This module display's cricket scores for ongoing live cricket matches
 
-![Screenshot](/Screenshots/screenshot_1.2.png "Screenshot")
+![Screenshot](/Screenshots/Screenshot_1.2.png "Screenshot")
 
 
 ## Installation
