@@ -83,6 +83,10 @@ Module.register("MMM-CricketScores",{
 		  this.addLastUpdated();
 		  
 		}
+		else if(notifyID == "NO_DATA")
+		{
+			this.noLiveMatch();
+		}
 	},
 
 	addLastUpdated: function(){
@@ -125,6 +129,13 @@ Module.register("MMM-CricketScores",{
 		this.createTitleHeader(item);
 		this.createMatchTable(item);
 		
+	},
+
+	noLiveMatch: function(){
+		var wrapper = document.getElementById("CKTSCORES");
+		var noMatchSpan = document.createElement("span");
+		noMatchSpan.innerHTML = "There are currently no live matches going on :(";
+		wrapper.appendChild(noMatchSpan);
 	},
 
 	createTitleHeader: function(item){

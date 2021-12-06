@@ -33,7 +33,7 @@ module.exports = NodeHelper.create({
         } else if (notifyID == "UPDATE") {
             // Query immediately
             this.config = payload;
-            console.error("[CKTSCORES] Updated");
+            console.log("[CKTSCORES] Updated");
             this.callAPI(this.config, (notifyID, payload) => {
                 this.sendSocketNotification(notifyID, payload);
             })
@@ -69,6 +69,7 @@ module.exports = NodeHelper.create({
             var results = data.Stages;
             if (results.length == 0) {
                 console.log("[CKTSCORES] Data Error: There is no available data");
+                callback('NO_DATA', results);
             } else {
                 console.log("[CKTSCORES] Sending result: " + results.length + " items");
                 callback('UPDATE', results);
