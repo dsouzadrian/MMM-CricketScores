@@ -1,0 +1,21 @@
+{
+    "name": "MMM-CricketScores",
+    "version": "1.3.0",
+    "description": "MagicMirror Module for live Cricket Match Scores",
+    "main": "MMM-CricketScores.js",
+    "repository": "https://github.com/dsouzadrian/MMM-CricketScores",
+    "keywords": [
+      "magic mirror",
+      "module",
+      "cricket"
+    ],
+    "author": "dsouzadrian",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/dsouzadrian/MMM-CricketScores/issues"
+    },
+    "dependencies": {
+      "request": "^2.88.0"
+    },
+    "devDependencies": {}
+  }
