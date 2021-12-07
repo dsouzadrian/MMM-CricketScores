@@ -62,6 +62,7 @@ This module display's cricket scores for ongoing live cricket matches
     config:{
         category: "cricket",
         numberOfResults : 1,
+        screenRefreshInterval : 10,
         focusTeam: "India",
         apiKey: '21345', // refer to the apiKey description to get an apiKey
         refreshInterval: 90
