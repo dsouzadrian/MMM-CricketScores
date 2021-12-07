@@ -30,7 +30,11 @@ This module display's cricket scores for ongoing live cricket matches
   <tbody>
     <tr>
       <td><code>numberOfResults</code></td>
-      <td>The number of matches to be displayed for live scores<br>Defaults to <code>3</code></td>
+      <td>The number of matches to be displayed at a time.<br>Defaults to <code>1</code></td>
+    </tr>
+    <tr>
+      <td><code>screenRefreshInterval</code></td>
+      <td>The interval in seconds at which MMM-CricketScores iterates through all live matches. If <code>numberOfReslts</code> is defined as 2 - then 2 matches are displayed at one time. Additional results will be displayed next and we continue looping through.<br>Defaults to <code>10 seconds</code></td>
     </tr>
     <tr>
       <td><code>focusTeam</code></td>
@@ -42,7 +46,7 @@ This module display's cricket scores for ongoing live cricket matches
     </tr>
     <tr>
       <td><code>refreshInterval</code></td>
-      <td>The interval at which the module is refreshed in minutes. Beaware of API limits when setting this variable. The API Limit is 500 / month for the free subscription. Refreshing every 90 minutes will allow you to get updates for the whole month. <br>Defaults to <code>90 minutes</code></td>
+      <td>The interval at which the module is refreshed in minutes to retrieve results from the API. Beaware of API limits when setting this variable. The API Limit is 500 / month for the free subscription. Refreshing every 90 minutes will allow you to get updates for the whole month. <br>Defaults to <code>90 minutes</code></td>
     </tr>
   </tbody>
 </table>

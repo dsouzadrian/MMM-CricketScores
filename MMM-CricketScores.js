@@ -2,7 +2,8 @@ Module.register("MMM-CricketScores",{
 	// Default module config.
 	defaults: {
 		category: "cricket",
-		numberOfResults : 3,
+		numberOfResults : 1,
+		screenRefreshInterval : 10,
 		focusTeam : "none",
 		apiKey: "1234",
 		refreshInterval: 90
@@ -37,15 +38,20 @@ Module.register("MMM-CricketScores",{
 	  },
 
 	updateScores: function() {
-		var wrapper = document.getElementById("CKTSCORES");
-			while (wrapper.firstChild) {
-				wrapper.firstChild.remove();
-			}
+		this.clearWrapper();
 		Log.info("[CKTSCORES] Updating");
 		this.sendSocketNotification("UPDATE", this.config);
 		this.updateDom();
 		Log.info("[CKTSCORES] Updated");
 	},
+
+	clearWrapper: function() {
+		var wrapper = document.getElementById("CKTSCORES");
+			while (wrapper.firstChild) {
+				wrapper.firstChild.remove();
+			}
+	},
+
 	socketNotificationReceived: function(notifyID, payload) {
 		if (notifyID == "UPDATE") {
 		  var numItems = payload.length;
@@ -69,18 +75,19 @@ Module.register("MMM-CricketScores",{
 					
 			}
 			matchArray = matchArraySorted;
-			if(numItems > this.config.numberOfResults)
+			/* if(numItems > this.config.numberOfResults)
 			{
 				numItems = this.config.numberOfResults;
-			}
+			} */
 		  }
 		  for (var i= 0; i < numItems; i++) {
 			var item = matchArray[i];
-			this.update(item);
+			this.update(item, i);
 
 		  }
-
-		  this.addLastUpdated();
+		  this.createScreens(numItems);
+		  this.addLastUpdated(numItems);
+		  
 		  
 		}
 		else if(notifyID == "NO_DATA")
@@ -89,7 +96,7 @@ Module.register("MMM-CricketScores",{
 		}
 	},
 
-	addLastUpdated: function(){
+	addLastUpdated: function(itemCount){
 		var wrapper = document.getElementById("CKTSCORES");
 
 		var lastUpdtDtTm = document.createElement("span");
@@ -103,12 +110,18 @@ Module.register("MMM-CricketScores",{
 		("0" + now.getSeconds()).slice(-2);
 		lastUpdtDtTm.innerHTML = "Last Updated : " + dateString;
 		wrapper.appendChild(lastUpdtDtTm);
+
+		var numItems = document.createElement("span");
+		numItems.id = "numItems";
+		numItems.innerHTML = "# of Live Matches : " + itemCount;
+		wrapper.appendChild(numItems);
 	
 	},
 
-	update: function(item){
+	update: function(item, matchNum){
 		var match = {
 			"matchName" : item.Snm,
+			"matchNum" : matchNum,
 			"matchCurrentStat" : item.Events[0].EpsL,
 			"matchSummary": item.Events[0].ECo,
 			"matchType": item.Ccd,
@@ -121,13 +134,74 @@ Module.register("MMM-CricketScores",{
 			"scndInningTeam1": item.Events[0].Tr1C2 + "/" +  item.Events[0].Tr1CW2 + " (" + +  item.Events[0].Tr1CO2 + "overs)",
 			"scndInningTeam2": item.Events[0].Tr2C2 + "/" +  item.Events[0].Tr2CW2 + " (" + +  item.Events[0].Tr2CO2 + "overs)"
 		}
-		this.displayInfo(match);
+		this.populateWrapper(match);
 
 	},
 
-	displayInfo: function(item){
-		this.createTitleHeader(item);
-		this.createMatchTable(item);
+	createScreens: function(numItems){
+		Log.log("[CKTSCORES] Creating Screens");
+		let _this = this;
+		var currPtr = 1;
+		setInterval(function() {
+			var startPtr = ((_this.config.numberOfResults * currPtr)-_this.config.numberOfResults);
+			var endPtr = _this.config.numberOfResults * currPtr;
+			
+			Log.log("[CKTSCORES] Showing Screen " + j + "[startPtr] = " + startPtr + "[endPtr] = " + endPtr + "[numItems] = " + numItems);
+			for(var i=0;i<numItems;i++)
+			{
+				if(i>= startPtr && i<endPtr)
+				{
+					
+				}
+				else
+				{
+					Log.log("Hiding Match " + i);
+					_this.hideElement(document.getElementById("matchTitle#" + i));
+				}
+			}
+			for(var j=startPtr;j<endPtr;j++)
+			{
+				
+				if(j<numItems)
+				{
+					Log.log("Showing Match " + j);
+					_this.showElement(document.getElementById("matchTitle#" + j));
+				}
+				
+				
+
+			}
+			if(endPtr >= numItems)
+			{
+				currPtr = 0;
+			}
+			currPtr++;	
+			
+		}, this.config.screenRefreshInterval * 1000);
+	
+
+	},
+
+	hideElement: function(item){
+		//item.style.width = "0%";
+		//item.style.height = "0%";
+		item.style.display = 'none';
+	},
+
+	showElement: function(item){
+		//item.style.width = "100%";
+		//item.style.height = "100%";
+		item.style.display = 'block';
+	},
+
+	populateWrapper: function(item){
+		var wrapper = document.getElementById("CKTSCORES");
+		var matchDiv = this.createTitleHeader(item);
+		matchDiv.appendChild(document.createElement("hr"));
+		matchDiv.appendChild(this.createMatchTable(item));
+		matchDiv.appendChild(document.createElement("hr"));
+		this.hideElement(matchDiv);
+		wrapper.appendChild(matchDiv);
 		
 	},
 
@@ -139,10 +213,11 @@ Module.register("MMM-CricketScores",{
 	},
 
 	createTitleHeader: function(item){
-		var wrapper = document.getElementById("CKTSCORES");
+		
 
 		var titleDiv = document.createElement("div");
-		titleDiv.id = "matchTitle";
+		titleDiv.id = "matchTitle#" + item.matchNum;
+		titleDiv.className = "matchTitle";
 		var title = document.createElement("span");
 		title.className = "header";
 		title.innerHTML = item.matchName;
@@ -163,7 +238,7 @@ Module.register("MMM-CricketScores",{
 		titleDiv.appendChild(summ);
 		titleDiv.appendChild(document.createElement("br"));
 
-		wrapper.appendChild(titleDiv);
+		return titleDiv;
 		
 		
 
@@ -236,10 +311,7 @@ Module.register("MMM-CricketScores",{
 			matchTable.appendChild(scndInnRow);
 		}
 		
-		var wrapper = document.getElementById("CKTSCORES");
-		wrapper.appendChild(document.createElement("hr"));
-		wrapper.appendChild(matchTable);
-		wrapper.appendChild(document.createElement("hr"));
+		return matchTable;
 	},
 
 	validateScore:function(scoreString){

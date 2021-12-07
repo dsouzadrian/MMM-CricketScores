@@ -14,9 +14,7 @@
     padding-right: 5px;
 }
 
-#lastUpdt{
-    font-size: 14px;
-}
+
 
 td{
     padding-right: 20px;
@@ -31,4 +29,19 @@ th{
 #matchStatus{
     padding-left: 10px;
     color: grey;
+}
+
+.matchTitle{
+    transition: width 2s;
+}
+
+#lastUpdt{
+    text-align: left;
+    font-size: 14px;
+}
+
+#numItems{
+    padding-left: 100px;
+    text-align: right;
+    font-size: 14px;
 }
