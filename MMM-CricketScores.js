@@ -326,27 +326,45 @@ Module.register("MMM-CricketScores",{
 	},
 
 	loadTeamImgName:function(teamName){
-		switch(teamName)
+		if(teamName.includes('India'))
 		{
-			case "India":
-				return "Logos/India.svg";
-			case "New Zealand":
-				return "Logos/nz.svg";
-			case "Australia":
-				return "Logos/aus.svg";
-			case "England":
-				return "Logos/eng.svg";
-			case "Pakistan":
-				return "Logos/pak.svg";
-			case "South Africa":
-				return "Logos/sa.svg";
-			case "United Arab Emirates":
-				return "Logos/uae.svg";
-			case "West Indies":
-				return "Logos/wi.svg";
-			default :
-				return "Logos/default.svg"
+			return "Logos/India.svg";
 		}
-	}
+		else if(teamName.includes("New Zealand"))
+		{
+			return "Logos/nz.svg";
+		}
+		else if(teamName.includes("Australia"))
+		{
+			return "Logos/australia.svg";
+		}
+		else if(teamName.includes("England"))
+		{
+			return "Logos/eng.svg";
+		}
+		else if(teamName.includes("Pakistan"))
+		{
+			return "Logos/pak.svg";
+		}
+		else if(teamName.includes("South Africa"))
+		{
+			return "Logos/sa.svg";
+		}
+		else if(teamName.includes("United Arab Emirates"))
+		{
+			return "Logos/uae.svg";
+		}
+		else if(teamName.includes("West Indies"))
+		{
+			return "Logos/wi.svg";
+		}
+		else
+		{
+			return "Logos/default.svg"
+		}		
+		
+	},
+
+	
 	
 });
