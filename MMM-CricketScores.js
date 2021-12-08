@@ -25,6 +25,7 @@ Module.register("MMM-CricketScores",{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 		wrapper.id = "CKTSCORES";
+		wrapper.setAttribute("refreshCount", "1");
 		return wrapper;
 	},
 
@@ -39,17 +40,27 @@ Module.register("MMM-CricketScores",{
 
 	updateScores: function() {
 		this.clearWrapper();
+		this.incrementRefreshCount();
 		Log.info("[CKTSCORES] Updating");
 		this.sendSocketNotification("UPDATE", this.config);
-		this.updateDom();
+		//this.updateDom();
 		Log.info("[CKTSCORES] Updated");
 	},
 
 	clearWrapper: function() {
 		var wrapper = document.getElementById("CKTSCORES");
 			while (wrapper.firstChild) {
-				wrapper.firstChild.remove();
+				
+					wrapper.firstChild.remove();
+				
+				
 			}
+	/* 	var wrapper = document.getElementById("CKTSCORES");
+		var refreshCount = document.getElementById("refreshCount");
+		Log.log("refreshCount innerHtml" + refreshCount.innerHTML);
+		wrapper.innerHTML = '';
+		wrapper.appendChild(refreshCount); */
+		
 	},
 
 	socketNotificationReceived: function(notifyID, payload) {
@@ -142,11 +153,12 @@ Module.register("MMM-CricketScores",{
 		Log.log("[CKTSCORES] Creating Screens");
 		let _this = this;
 		var currPtr = 1;
-		setInterval(function() {
+		var refreshCount = _this.retrieveCurrentRefreshCount();
+		var animateScreens = setInterval(function() {
 			var startPtr = ((_this.config.numberOfResults * currPtr)-_this.config.numberOfResults);
 			var endPtr = _this.config.numberOfResults * currPtr;
 			
-			Log.log("[CKTSCORES] Showing Screen " + j + "[startPtr] = " + startPtr + "[endPtr] = " + endPtr + "[numItems] = " + numItems);
+			Log.log("[CKTSCORES] Showing Screen --> [startPtr] = " + startPtr + " [endPtr] = " + endPtr + " [numItems] = " + numItems + " refreshCount = " + refreshCount);
 			for(var i=0;i<numItems;i++)
 			{
 				if(i>= startPtr && i<endPtr)
@@ -175,9 +187,14 @@ Module.register("MMM-CricketScores",{
 			{
 				currPtr = 0;
 			}
-			currPtr++;	
+			currPtr++;
+			if(refreshCount < _this.retrieveCurrentRefreshCount())
+			{
+				clearInterval(animateScreens);
+			}	
 			
 		}, this.config.screenRefreshInterval * 1000);
+		Log.log("Interval Cleared");
 	
 
 	},
@@ -365,6 +382,15 @@ Module.register("MMM-CricketScores",{
 		
 	},
 
-	
+	retrieveCurrentRefreshCount: function(){
+		var refreshCount = document.getElementById("CKTSCORES").getAttribute("refreshCount");
+		return parseInt(refreshCount);
+	},
+
+	incrementRefreshCount: function(){
+		var refreshCount = document.getElementById("CKTSCORES").getAttribute("refreshCount");;
+		document.getElementById("CKTSCORES").setAttribute("refreshCount",(parseInt(refreshCount) + 1).toString());
+		
+	}
 	
 });
