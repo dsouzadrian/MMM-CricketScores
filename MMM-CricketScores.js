@@ -105,6 +105,10 @@ Module.register("MMM-CricketScores",{
 		{
 			this.noLiveMatch();
 		}
+		else if(notifyID == "LIMIT_EXCEEDED")
+		{
+			this.limitExceeded();
+		}
 	},
 
 	addLastUpdated: function(itemCount){
@@ -224,9 +228,27 @@ Module.register("MMM-CricketScores",{
 
 	noLiveMatch: function(){
 		var wrapper = document.getElementById("CKTSCORES");
+		var noMatchSpanTitle = document.createElement("span");
+		noMatchSpanTitle.className = "header";
+		noMatchSpanTitle.innerHTML = this.name;
+		
 		var noMatchSpan = document.createElement("span");
-		noMatchSpan.innerHTML = "There are currently no live matches going on :(";
+		noMatchSpan.className = "warningMsg";
+		noMatchSpan.innerHTML = "<br/>There are currently no live matches going on :(";
+		wrapper.appendChild(noMatchSpanTitle);
 		wrapper.appendChild(noMatchSpan);
+	},
+
+	limitExceeded: function(){
+		var wrapper = document.getElementById("CKTSCORES");
+		var limitExceededTitle = document.createElement("span");
+		limitExceededTitle.className = "header";
+		limitExceededTitle.innerHTML = this.name;
+		var limitExceeded = document.createElement("span");
+		limitExceeded.className = "warningMsg"
+		limitExceeded.innerHTML = "<br/>You have exceeded the MONTHLY quota for Requests.";
+		wrapper.appendChild(limitExceededTitle);
+		wrapper.appendChild(limitExceeded);
 	},
 
 	createTitleHeader: function(item){

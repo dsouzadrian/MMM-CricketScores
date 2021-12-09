@@ -60,8 +60,13 @@ module.exports = NodeHelper.create({
                 console.error("[CKTSCORES] API Error: ", error);
                 return;
             }
-            if (response.statusCode != 200) {
-                console.error("[CKTSCORES] Request error: " + response.statusMessage);
+            if(response.statusCode == 429)
+            {
+                console.error("[CKTSCORES] Exceeded monthly limit: " + response.statusMessage);
+                callback('LIMIT_EXCEEDED', results);
+            }
+            else if (response.statusCode != 200) {
+                console.error("[CKTSCORES] Request error: " + response.statusCode + " " + response.statusMessage);
                 return;
             }
             data = JSON.parse(body);

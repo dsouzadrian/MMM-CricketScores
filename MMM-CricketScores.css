@@ -45,3 +45,11 @@ th{
     text-align: right;
     font-size: 14px;
 }
+
+.warningMsg{
+    
+    font-style: italic;
+    color: lightcoral;
+    
+    
+}
