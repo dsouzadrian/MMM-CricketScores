@@ -331,7 +331,8 @@ Module.register("MMM-CricketScores",{
 		fstInnRow.appendChild(fstInnTm2Score);
 		matchTable.appendChild(fstInnRow);
 		
-		if(item.matchType.toUpperCase() == "INTL-TEST")
+		//if(item.matchType.toUpperCase() == "INTL-TEST")
+		if(this.validateScore(item.scndInningTeam1)!= "0/0" || this.validateScore(item.scndInningTeam2)!= "0/0")
 		{
 			var scndInnCol = document.createElement("td");
 			scndInnCol.innerHTML = "2nd Innings";
